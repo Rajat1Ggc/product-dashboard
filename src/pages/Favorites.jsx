@@ -7,7 +7,6 @@ export default function Favorites() {
   const favorites = useSelector(state => state.favorites.items);
   const dispatch = useDispatch();
 
-  // Empty State
   if (!favorites.length) {
     return (
       <div className="text-center py-16 space-y-4">
@@ -30,7 +29,6 @@ export default function Favorites() {
           key={product.id}
           className="bg-white border rounded-lg p-4 flex flex-col"
         >
-          {/* Image */}
           <div className="h-32 flex items-center justify-center mb-3">
             <img
               src={product.image}
@@ -38,18 +36,12 @@ export default function Favorites() {
               className="max-h-full object-contain"
             />
           </div>
-
-          {/* Title */}
           <p className="text-sm font-medium text-gray-900 line-clamp-2">
             {product.title}
           </p>
-
-          {/* Price */}
           <p className="mt-1 font-semibold text-gray-800">
             ${product.price}
           </p>
-
-          {/* Action */}
           <button
             onClick={() => dispatch(removeFavorite(product.id))}
             className="mt-auto text-sm text-red-600 hover:underline"

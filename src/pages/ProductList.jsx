@@ -1,33 +1,63 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts, setSearch } from '../features/products/productsSlice';
-import { selectProductsStatus } from '../features/products/productsSelectors';
-import useDebounce from '../hooks/useDebounce';
+import { fetchCategories } from '../services/productsApi';
 import ProductCard from '../components/ProductCard';
 import SearchBar from '../components/SearchBar';
-import PropTypes from 'prop-types';
+import FilterBar from '../components/FilterBar';
 import Loader from '../components/Loader';
+import useDebounce from '../hooks/useDebounce';
+import PropTypes from 'prop-types';
 
 function ProductList({ searchOpen }) {
   const dispatch = useDispatch();
-  const { items, search } = useSelector(state => state.products);
-  const status = useSelector(selectProductsStatus);
 
-  // ✅ Debounced search value
-  const debouncedSearch = useDebounce(search, 400);
+  const { items, search, category, sort } = useSelector(
+    state => state.products
+  );
+
+const status = useSelector(state => state.products.status);
+
+
+  const [categories, setCategories] = useState([]);
+
+  // debounced search
+  const debouncedSearch = useDebounce(search, 1000);
 
   useEffect(() => {
     dispatch(getProducts());
+
+    fetchCategories()
+      .then(setCategories)
+      .catch(() => setCategories([]));
   }, [dispatch]);
 
-  // ✅ Filter using debounced value
+  // Filter + sort using DEBOUNCED value
   const filteredProducts = useMemo(() => {
-    if (!debouncedSearch) return items;
+    let result = [...items];
 
-    return items.filter(product =>
-      product.title.toLowerCase().includes(debouncedSearch.toLowerCase())
-    );
-  }, [items, debouncedSearch]);
+    if (debouncedSearch) {
+      result = result.filter(product =>
+        product.title
+          .toLowerCase()
+          .includes(debouncedSearch.toLowerCase())
+      );
+    }
+
+    if (category !== 'all') {
+      result = result.filter(
+        product => product.category === category
+      );
+    }
+
+    if (sort === 'asc') {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sort === 'desc') {
+      result.sort((a, b) => b.price - a.price);
+    }
+
+    return result;
+  }, [items, debouncedSearch, category, sort]);
 
   if (status === 'loading') {
     return <Loader text="Loading products…" />;
@@ -43,15 +73,13 @@ function ProductList({ searchOpen }) {
 
   return (
     <div className="space-y-6">
-      {/* Search */}
       {searchOpen && (
         <SearchBar
           value={search}
           onChange={(value) => dispatch(setSearch(value))}
         />
       )}
-
-      {/* Empty State */}
+      <FilterBar categories={categories} />
       {filteredProducts.length === 0 && (
         <div className="text-center py-10">
           <h3 className="font-semibold text-gray-800">
@@ -62,8 +90,6 @@ function ProductList({ searchOpen }) {
           </p>
         </div>
       )}
-
-      {/* Products Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
         {filteredProducts.map(product => (
           <ProductCard key={product.id} product={product} />

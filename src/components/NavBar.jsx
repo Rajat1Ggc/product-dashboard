@@ -10,7 +10,6 @@ const NavBar = ({ searchOpen, setSearchOpen }) => {
     <nav aria-label="Global" className="bg-white border-b">
       <div className="max-w-7xl mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
-          {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
             <img
               src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
@@ -21,8 +20,6 @@ const NavBar = ({ searchOpen, setSearchOpen }) => {
               ProductDash
             </span>
           </Link>
-
-          {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             <NavLink
               to="/"
@@ -52,7 +49,6 @@ const NavBar = ({ searchOpen, setSearchOpen }) => {
               Favorites
             </NavLink>
 
-            {/* Search Toggle */}
             <button
               type="button"
               aria-label="Toggle search"

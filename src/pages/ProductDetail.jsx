@@ -48,7 +48,6 @@ export default function ProductDetail() {
   return (
     <div className="max-w-7xl mx-auto bg-white border rounded-lg p-6">
       <div className="grid md:grid-cols-2 gap-8">
-        {/* Image */}
         <div className="flex items-center justify-center">
           <img
             src={product.image}
@@ -56,8 +55,6 @@ export default function ProductDetail() {
             className="max-h-80 object-contain"
           />
         </div>
-
-        {/* Details */}
         <div className="space-y-4">
           <h1 className="text-xl font-semibold text-gray-900">
             {product.title}

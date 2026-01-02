@@ -17,7 +17,6 @@ import PropTypes from 'prop-types';
 
   return (
     <div className="bg-white border rounded-lg p-4 flex flex-col hover:shadow-md transition">
-      {/* Image */}
       <div className="h-36 flex items-center justify-center mb-3">
         <img
           src={product.image}
@@ -25,18 +24,13 @@ import PropTypes from 'prop-types';
           className="max-h-full object-contain"
         />
       </div>
-
-      {/* Title */}
       <h3 className="text-sm font-medium text-gray-900 line-clamp-2">
         {product.title}
       </h3>
-
-      {/* Price */}
       <p className="mt-1 font-semibold text-gray-800">
         ${product.price}
       </p>
 
-      {/* Actions */}
       <div className="mt-auto flex items-center justify-between pt-3">
         <Link
           to={`/product/${product.id}`}
@@ -44,7 +38,6 @@ import PropTypes from 'prop-types';
         >
           View details
         </Link>
-
         <button
           onClick={toggleFavorite}
           aria-label="Toggle favorite"
