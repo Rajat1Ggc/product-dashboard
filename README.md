@@ -77,6 +77,18 @@ npm run test
 
 All test cases should pass successfully.
 
+🧠 Notes & Decisions
+
+Redux Toolkit was used to keep state predictable and easy to manage.
+
+Debounced search is implemented using a custom hook to avoid unnecessary re-renders.
+
+Filtering and sorting logic is handled in the component layer for clarity.
+
+Components are kept small and reusable where possible.
+
+Testing focuses on reducers and important UI behavior without over-testing.
+
 🌐 API Reference:
 
 This project uses the following endpoints from Fake Store API:

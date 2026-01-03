@@ -11,15 +11,11 @@ import PropTypes from 'prop-types';
 
 function ProductList({ searchOpen }) {
   const dispatch = useDispatch();
+ const [categories, setCategories] = useState([]);
 
-  const { items, search, category, sort } = useSelector(
+  const { items, search, category, sort, status } = useSelector(
     state => state.products
   );
-
-const status = useSelector(state => state.products.status);
-
-
-  const [categories, setCategories] = useState([]);
 
   // debounced search
   const debouncedSearch = useDebounce(search, 1000);
